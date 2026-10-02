@@ -57,6 +57,12 @@ variable "cluster_endpoint_public_access_cidrs" {
   default     = []
 }
 
+variable "cluster_admin_principal_arns" {
+  description = "IAM role/user ARNs granted EKS cluster administrator access through EKS access entries."
+  type        = list(string)
+  default     = []
+}
+
 variable "enable_vpc_flow_logs" {
   description = "Enable VPC flow logs to CloudWatch Logs."
   type        = bool
