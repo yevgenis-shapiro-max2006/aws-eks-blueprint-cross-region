@@ -1,0 +1,9 @@
+cluster_version = "1.33"
+cluster_endpoint_public_access = false
+cluster_endpoint_public_access_cidrs = []
+cluster_admin_principal_arns = []
+enable_vpc_flow_logs = true
+enable_vpc_endpoints = true
+node_root_volume_size = 100
+node_root_volume_iops = 3000
+node_root_volume_throughput = 125
