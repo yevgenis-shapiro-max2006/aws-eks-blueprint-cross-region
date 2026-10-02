@@ -27,3 +27,8 @@ output "nat_gateway_ids" {
   description = "NAT Gateway IDs, one per AZ."
   value       = module.vpc.natgw_ids
 }
+
+output "eks_kms_key_arn" {
+  description = "KMS key ARN used for EKS Kubernetes secrets encryption."
+  value       = aws_kms_key.eks.arn
+}
