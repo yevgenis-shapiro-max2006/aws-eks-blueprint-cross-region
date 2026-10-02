@@ -1,0 +1,21 @@
+aws_region     = "eu-central-1"
+cluster_name  = "regional-eks"
+cluster_version = "1.33"
+
+# Keep the API private in production. If public access is required for CI/CD,
+# provide tightly scoped corporate/VPN egress CIDRs.
+cluster_endpoint_public_access = false
+cluster_endpoint_public_access_cidrs = []
+
+availability_zones = [
+  "eu-central-1a",
+  "eu-central-1b",
+  "eu-central-1c"
+]
+
+# Configure your S3 backend outside this file, for example:
+# terraform init \
+#   -backend-config="bucket=<state-bucket>" \
+#   -backend-config="key=eks/production/terraform.tfstate" \
+#   -backend-config="region=eu-central-1" \
+#   -backend-config="dynamodb_table=<lock-table>"
