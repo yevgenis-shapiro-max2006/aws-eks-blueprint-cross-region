@@ -116,3 +116,36 @@ variable "general_max_size" {
   type    = number
   default = 9
 }
+
+variable "node_root_volume_size" {
+  description = "Root EBS volume size in GiB for all EKS managed node groups."
+  type        = number
+  default     = 100
+
+  validation {
+    condition     = var.node_root_volume_size == 100
+    error_message = "Production managed node groups must use a 100 GiB root volume."
+  }
+}
+
+variable "node_root_volume_iops" {
+  description = "Provisioned GP3 IOPS for EKS managed node group root volumes."
+  type        = number
+  default     = 3000
+
+  validation {
+    condition     = var.node_root_volume_iops >= 3000 && var.node_root_volume_iops <= 16000
+    error_message = "GP3 IOPS must be between 3000 and 16000."
+  }
+}
+
+variable "node_root_volume_throughput" {
+  description = "Provisioned GP3 throughput in MiB/s for EKS managed node group root volumes."
+  type        = number
+  default     = 125
+
+  validation {
+    condition     = var.node_root_volume_throughput >= 125 && var.node_root_volume_throughput <= 1000
+    error_message = "GP3 throughput must be between 125 and 1000 MiB/s."
+  }
+}
