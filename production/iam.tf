@@ -1,28 +1,27 @@
-data "aws_iam_policy_document" "flow_logs_assume_role" {
-  count = var.enable_vpc_flow_logs ? 1 : 0
+resource "aws_kms_key" "eks" {
+  description             = "KMS key for EKS Kubernetes secrets encryption"
+  enable_key_rotation     = true
+  deletion_window_in_days = 30
 
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["vpc-flow-logs.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "EnableAccountAdministration"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Action   = "kms:*"
+        Resource = "*"
+      }
+    ]
+  })
 }
 
-resource "aws_iam_role" "flow_logs" {
-  count = var.enable_vpc_flow_logs ? 1 : 0
+data "aws_caller_identity" "current" {}
 
-  name               = "${var.cluster_name}-vpc-flow-logs"
-  assume_role_policy = data.aws_iam_policy_document.flow_logs_assume_role[0].json
-}
-
-resource "aws_iam_role_policy_attachment" "flow_logs" {
-  count = var.enable_vpc_flow_logs ? 1 : 0
-
-  role       = aws_iam_role.flow_logs[0].name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonVPCFlowLogs"
+resource "aws_kms_alias" "eks" {
+  name          = "alias/${var.cluster_name}-eks"
+  target_key_id = aws_kms_key.eks.key_id
 }
