@@ -6,7 +6,7 @@ module "httpd" {
 
   name   = "httpd-server"
   namespace = "default"
-  replicas  = 1
+  replicas  = 2
   image = "virtapp/apache:7f6c4bf4-3-6"
   service_port = 8080
   service_type = "ClusterIP"
@@ -17,19 +17,9 @@ module "kong" {
   depends_on = [module.httpd]
 }
 
-module "keda" {
-  source = "./modules/keda"
-  depends_on = [module.kong]
-}
-
-module "minio" {
-  source = "./modules/minio"
-  depends_on = [module.keda]
-}
-
 module "prometheus" {
   source = "./modules/prometheus"
-  depends_on = [module.minio]
+  depends_on = [module.kong]
 }
 
 module "grafana" {
@@ -37,14 +27,9 @@ module "grafana" {
   depends_on = [module.prometheus]
 }
 
-module "sonarqube" {
-  source = "./modules/sonarqube"
-  depends_on = [module.grafana]
-}
-
 module "ingress" {
   source = "./modules/ingress"
-  depends_on = [module.sonarqube]
+  depends_on = [module.grafana]
 }
 
 
