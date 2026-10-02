@@ -1,8 +1,8 @@
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/2c336c4a-b668-4264-8883-b957de7723e9" />
 
 
-## AWS | EKS SonarQube
-SonarQube is a code quality and application security platform. It analyzes your source code and finds problems before the code reaches production.
+
+## AWS | Regional
+
 
 
 
