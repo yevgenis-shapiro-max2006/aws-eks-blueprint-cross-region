@@ -1,5 +1,5 @@
 
-###  ---  Default Template  ---  ###
+###  ---  Regional Template  ---  ###
 aws_region      = "eu-central-1" # \\\ eu-central-1
 cluster_name    = "eks-cluster-regional
 cluster_version = "1.35"
