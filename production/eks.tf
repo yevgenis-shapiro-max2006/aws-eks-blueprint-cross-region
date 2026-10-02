@@ -77,6 +77,22 @@ module "eks" {
       max_size       = var.system_max_size
       subnet_ids     = module.vpc.private_subnets
 
+      disk_size = var.node_root_volume_size
+
+      block_device_mappings = {
+        root = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = var.node_root_volume_size
+            volume_type           = "gp3"
+            encrypted             = true
+            delete_on_termination = true
+            iops                   = var.node_root_volume_iops
+            throughput             = var.node_root_volume_throughput
+          }
+        }
+      }
+
       labels = {
         "node-role.kubernetes.io/system" = "true"
       }
@@ -102,6 +118,22 @@ module "eks" {
       desired_size   = var.general_desired_size
       max_size       = var.general_max_size
       subnet_ids     = module.vpc.private_subnets
+
+      disk_size = var.node_root_volume_size
+
+      block_device_mappings = {
+        root = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = var.node_root_volume_size
+            volume_type           = "gp3"
+            encrypted             = true
+            delete_on_termination = true
+            iops                   = var.node_root_volume_iops
+            throughput             = var.node_root_volume_throughput
+          }
+        }
+      }
 
       labels = {
         workload = "general"
